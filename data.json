@@ -1,0 +1,133 @@
+{
+  "patients": [
+    {
+      "id": "P001",
+      "email": "john@medicare.com",
+      "password": "patient123",
+      "role": "patient",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Dela Cruz",
+        "dob": "1990-03-15",
+        "age": 35,
+        "gender": "Male",
+        "bloodType": "O+",
+        "height": "175 cm",
+        "weight": "68 kg",
+        "phone": "+63 912 345 6789",
+        "address": "Makati City, Metro Manila",
+        "avatar": "JD",
+        "avatarColor": "#2563eb"
+      },
+      "medicalHistory": {
+        "diagnoses": [
+          { "condition": "Hypertension", "year": 2021, "status": "Ongoing" }
+        ],
+        "allergies": ["Penicillin"],
+        "medications": [
+          { "name": "Amlodipine", "dose": "5mg", "frequency": "Once daily" }
+        ],
+        "familyHistory": ["Diabetes (Father)", "Hypertension (Mother)"],
+        "emergencyContact": { "name": "Maria Dela Cruz", "relation": "Spouse", "phone": "+63 917 654 3210" }
+      },
+      "vitals": {
+        "current": { "heartRate": 74, "spo2": 97.8, "riskScore": 14 },
+        "history": [
+          { "date": "2026-03-24", "hr": 74, "spo2": 97.8, "risk": 14 },
+          { "date": "2026-03-23", "hr": 78, "spo2": 97.2, "risk": 18 },
+          { "date": "2026-03-22", "hr": 69, "spo2": 98.5, "risk": 8  },
+          { "date": "2026-03-21", "hr": 82, "spo2": 96.9, "risk": 22 },
+          { "date": "2026-03-20", "hr": 77, "spo2": 97.6, "risk": 15 },
+          { "date": "2026-03-19", "hr": 71, "spo2": 98.1, "risk": 11 },
+          { "date": "2026-03-18", "hr": 85, "spo2": 95.8, "risk": 31 }
+        ]
+      },
+      "reports": [
+        {
+          "id": "R001",
+          "title": "CBC Panel – March 2026",
+          "date": "2026-03-10",
+          "type": "Blood Test",
+          "summary": "Haemoglobin is 11.2 g/dL (slightly below normal 13.5–17.5), suggesting mild anaemia. White blood cell count 7.2 × 10³/μL (normal). Platelets 245 × 10³/μL (normal). Recommendation: Consider iron supplementation and re-test in 4 weeks.",
+          "raw": "Hgb: 11.2 g/dL | WBC: 7.2 ×10³/μL | PLT: 245 ×10³/μL | RBC: 4.1 M/μL"
+        },
+        {
+          "id": "R002",
+          "title": "Lipid Profile – Feb 2026",
+          "date": "2026-02-14",
+          "type": "Blood Test",
+          "summary": "Total cholesterol 198 mg/dL (borderline high, normal <200). LDL 122 mg/dL (slightly elevated, target <100 for hypertension patients). HDL 48 mg/dL (acceptable). Triglycerides 142 mg/dL (normal). Lifestyle modification advised.",
+          "raw": "Total Chol: 198 | LDL: 122 | HDL: 48 | TG: 142 mg/dL"
+        }
+      ],
+      "appointments": [
+        { "id": "A001", "doctor": "Dr. Maria Santos", "date": "2026-03-28", "time": "10:00 AM", "type": "Cardiology Follow-up", "status": "Upcoming" },
+        { "id": "A002", "doctor": "Dr. Jose Reyes",   "date": "2026-02-20", "time": "2:00 PM",  "type": "General Check-up",     "status": "Completed" }
+      ],
+      "chatHistory": [
+        { "sender": "bot",  "text": "Hello John! I'm your MediCare AI+ health assistant. I can answer questions based on your own medical records and live vitals. How can I help you today?" },
+        { "sender": "user", "text": "Is my blood pressure medication working?" },
+        { "sender": "bot",  "text": "Based on your EHR, you started Amlodipine 5mg in 2021 for hypertension. Your recent sensor data shows your heart rate has been stable (69–85 BPM range this week), which is a positive sign. Continue taking your medication as prescribed and attend your upcoming Cardiology Follow-up on March 28." }
+      ]
+    },
+    {
+      "id": "P002",
+      "email": "ana@medicare.com",
+      "password": "patient123",
+      "role": "patient",
+      "profile": {
+        "firstName": "Ana",
+        "lastName": "Reyes",
+        "dob": "1995-07-22",
+        "age": 30,
+        "gender": "Female",
+        "bloodType": "A+",
+        "height": "162 cm",
+        "weight": "55 kg",
+        "phone": "+63 920 111 2233",
+        "address": "Quezon City, Metro Manila",
+        "avatar": "AR",
+        "avatarColor": "#7c3aed"
+      },
+      "medicalHistory": {
+        "diagnoses": [
+          { "condition": "Type 2 Diabetes", "year": 2023, "status": "Managed" }
+        ],
+        "allergies": ["Sulfa drugs", "Aspirin"],
+        "medications": [
+          { "name": "Metformin", "dose": "500mg", "frequency": "Twice daily with meals" }
+        ],
+        "familyHistory": ["Diabetes (Both parents)", "Heart Disease (Grandfather)"],
+        "emergencyContact": { "name": "Carlos Reyes", "relation": "Brother", "phone": "+63 918 999 0011" }
+      },
+      "vitals": {
+        "current": { "heartRate": 81, "spo2": 99.1, "riskScore": 19 },
+        "history": [
+          { "date": "2026-03-24", "hr": 81, "spo2": 99.1, "risk": 19 },
+          { "date": "2026-03-23", "hr": 76, "spo2": 98.7, "risk": 12 },
+          { "date": "2026-03-22", "hr": 88, "spo2": 97.9, "risk": 26 },
+          { "date": "2026-03-21", "hr": 73, "spo2": 99.2, "risk": 9  },
+          { "date": "2026-03-20", "hr": 79, "spo2": 98.4, "risk": 16 },
+          { "date": "2026-03-19", "hr": 92, "spo2": 94.1, "risk": 58 },
+          { "date": "2026-03-18", "hr": 75, "spo2": 98.8, "risk": 13 }
+        ]
+      },
+      "reports": [
+        {
+          "id": "R003",
+          "title": "HbA1c Test – March 2026",
+          "date": "2026-03-05",
+          "type": "Blood Test",
+          "summary": "HbA1c is 7.1% — just above the target of <7% for diabetes management. Blood glucose control is improving but needs slight adjustment. Fasting blood sugar was 128 mg/dL. Continue Metformin and dietary modifications. Follow-up in 3 months.",
+          "raw": "HbA1c: 7.1% | FBS: 128 mg/dL | Creatinine: 0.8 mg/dL"
+        }
+      ],
+      "appointments": [
+        { "id": "A003", "doctor": "Dr. Liza Cruz", "date": "2026-04-02", "time": "9:00 AM", "type": "Endocrinology Review", "status": "Upcoming" }
+      ],
+      "chatHistory": [
+        { "sender": "bot", "text": "Hello Ana! I'm your MediCare AI+ health assistant. How can I help you today?" }
+      ]
+    }
+  ]
+}
