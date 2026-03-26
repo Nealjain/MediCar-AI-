@@ -5,12 +5,16 @@ import { api } from "../../../../convex/_generated/api";
 
 export const runtime = "nodejs";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+function getConvex() {
+  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!url) throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  return new ConvexHttpClient(url);
+}
 
 export async function GET() {
   try {
     // Check if admin already exists
-    const existing = await convex.query(api.users.getUserByEmail, {
+    const existing = await getConvex().query(api.users.getUserByEmail, {
       email: "nealmanawat@gmail.com",
     });
     if (existing) {
@@ -25,7 +29,7 @@ export async function GET() {
     ]);
 
     // Create admin
-    await convex.mutation(api.users.createUser, {
+    await getConvex().mutation(api.users.createUser, {
       name: "Neal Jain",
       email: "nealmanawat@gmail.com",
       passwordHash: adminHash,
@@ -34,7 +38,7 @@ export async function GET() {
     });
 
     // Create hospital
-    await convex.mutation(api.users.createUser, {
+    await getConvex().mutation(api.users.createUser, {
       name: "City General Hospital",
       email: "hospital@citygeneral.com",
       passwordHash: hospitalHash,
@@ -50,7 +54,7 @@ export async function GET() {
     });
 
     // Create doctor
-    await convex.mutation(api.users.createUser, {
+    await getConvex().mutation(api.users.createUser, {
       name: "Dr. Priya Sharma",
       email: "dr.sharma@medicare.ai",
       passwordHash: doctorHash,

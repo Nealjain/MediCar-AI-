@@ -2,7 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../../../../convex/_generated/api";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+export const runtime = "nodejs";
+
+function getConvex() {
+  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!url) throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  return new ConvexHttpClient(url);
+}
 
 // Simple ML risk score calculation (mirrors the Logistic Regression logic)
 function computeRiskScore(hr: number, spo2: number, age = 30): number {
@@ -30,7 +36,7 @@ export async function POST(req: NextRequest) {
     const mlRiskScore = computeRiskScore(hr, s, age ? Number(age) : 30);
     const mlRiskLabel = mlRiskScore > 0.7 ? "High" : mlRiskScore > 0.4 ? "Medium" : "Low";
 
-    await convex.mutation(api.patients.addSensorData, {
+    await getConvex().mutation(api.patients.addSensorData, {
       patientId,
       heartRate: hr,
       bloodOxygen: s,

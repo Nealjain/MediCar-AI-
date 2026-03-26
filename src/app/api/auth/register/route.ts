@@ -5,7 +5,11 @@ import { api } from "../../../../../convex/_generated/api";
 
 export const runtime = "nodejs";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+function getConvex() {
+  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!url) throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  return new ConvexHttpClient(url);
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,7 +34,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Check duplicate
-    const existing = await convex.query(api.users.getUserByEmail, { email });
+    const existing = await getConvex().query(api.users.getUserByEmail, { email });
     if (existing) {
       return NextResponse.json({ error: "An account with this email already exists." }, { status: 409 });
     }
@@ -63,7 +67,7 @@ export async function POST(req: NextRequest) {
       ...(assignedHospitalId  && { assignedHospitalId }),
     };
 
-    const userId = await convex.mutation(api.users.createUser, args);
+    const userId = await getConvex().mutation(api.users.createUser, args);
 
     return NextResponse.json({ success: true, userId, role, approved });
   } catch (err) {

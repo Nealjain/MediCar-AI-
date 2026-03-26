@@ -5,7 +5,11 @@ import { api } from "../../../../../convex/_generated/api";
 
 export const runtime = "nodejs";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+function getConvex() {
+  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!url) throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  return new ConvexHttpClient(url);
+}
 
 // Simple in-memory rate limiter: 5 attempts per 15 min per IP
 const attempts = new Map<string, { count: number; resetAt: number }>();
@@ -46,7 +50,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
     }
 
-    const user = await convex.query(api.users.getUserByEmail, { email });
+    const user = await getConvex().query(api.users.getUserByEmail, { email });
 
     if (!user) {
       return NextResponse.json({ error: "Invalid email or password." }, { status: 401 });

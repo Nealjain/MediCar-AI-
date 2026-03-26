@@ -6,14 +6,18 @@ import path from "path";
 
 export const runtime = "nodejs";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+function getConvex() {
+  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
+  if (!url) throw new Error("NEXT_PUBLIC_CONVEX_URL is not set");
+  return new ConvexHttpClient(url);
+}
 
 export async function GET(req: NextRequest) {
   const force = new URL(req.url).searchParams.get("force") === "1";
 
   try {
     // Seed lab tests
-    const labResult = await convex.mutation(api.prescriptions.seedLabTests);
+    const labResult = await getConvex().mutation(api.prescriptions.seedLabTests);
 
     // Load medication data
     const dataPath = path.join(process.cwd(), "..", "medication names", "DATA", "indian_medicine_data.json");
@@ -49,14 +53,14 @@ export async function GET(req: NextRequest) {
 
     // If force re-seed, clear first
     if (force) {
-      await convex.mutation(api.prescriptions.clearDrugs);
+      await getConvex().mutation(api.prescriptions.clearDrugs);
     }
 
     // Seed in batches of 100
     const BATCH = 100;
     let totalInserted = 0;
     for (let i = 0; i < curated.length; i += BATCH) {
-      const result = await convex.mutation(api.prescriptions.seedDrugs, {
+      const result = await getConvex().mutation(api.prescriptions.seedDrugs, {
         drugs: curated.slice(i, i + BATCH),
         force: force || undefined,
       });
