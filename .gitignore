@@ -1,0 +1,22 @@
+# Next.js
+.next/
+out/
+
+# Node
+node_modules/
+
+# Env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+
+# Build cache
+*.tsbuildinfo
+
+# Large data files — seeded into Convex, not needed in repo
+medication names/
+
+# Misc
+.vscode/
