@@ -1,20 +1,31 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+### Getting Started
 
-First, run the development server:
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2.  **Convex Setup**:
+    The project is configured to use the `enchanted-gopher-100` Convex project.
+    Run the Convex development server (this will sync your schema and functions):
+    ```bash
+    npx convex dev
+    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3.  **Seed the Database**:
+    In a new terminal, seed the database with initial patient data:
+    ```bash
+    npx convex run seed
+    ```
+
+4.  **Run Next.js**:
+    ```bash
+    npm run dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

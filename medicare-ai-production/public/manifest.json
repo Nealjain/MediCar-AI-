@@ -1,0 +1,13 @@
+{
+  "name": "MediCare AI+",
+  "short_name": "MediCare",
+  "description": "Smart health monitoring powered by IoT, ML, and AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/globe.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

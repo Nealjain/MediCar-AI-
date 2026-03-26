@@ -4,7 +4,6 @@
   --color-brand: #2563eb;
   --color-brand-dark: #1d4ed8;
   --color-brand-light: #eff6ff;
-  
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
@@ -26,8 +25,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* BUG-01 fix: prevent hero title clipping on font load */
+.hero-title {
+  overflow: visible;
+  min-height: 5rem;
+  display: block;
+}
+
+/* BUG-03 fix: contain any floating animation orbs behind buttons */
+.animation-orb {
+  z-index: -1;
+  pointer-events: none;
+  position: absolute;
+}
+
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 }
