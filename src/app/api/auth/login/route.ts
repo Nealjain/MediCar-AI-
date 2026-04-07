@@ -44,7 +44,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email, password } = await req.json();
+    const { email: rawEmail, password } = await req.json();
+    const email = rawEmail?.toLowerCase();
 
     if (!email || !password) {
       return NextResponse.json({ error: "Email and password are required." }, { status: 400 });

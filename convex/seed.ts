@@ -2,16 +2,39 @@ import { mutation } from "./_generated/server";
 
 export default mutation({
   handler: async (ctx) => {
-    // Seed users
-    const adminId = await ctx.db.insert("users", {
-      name: "Neal Jain",
-      email: "nealmanawat@gmail.com",
-      role: "admin",
-      approved: true,
-      // bcrypt hash of "Neal@2005"
-      passwordHash: "$2b$12$xTU3Y.LtHladLb5SSir9/Oce35CML7MpuHKA4nNck0hYoslhsdhiK",
-      createdAt: Date.now(),
-    });
+    // Check if seeded data exists
+    const existingAdmin = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", "nealmanawat@gmail.com"))
+      .unique();
+    const existingAdmin2 = await ctx.db
+      .query("users")
+      .withIndex("by_email", (q) => q.eq("email", "admin@admin.com"))
+      .unique();
+
+    if (!existingAdmin) {
+      await ctx.db.insert("users", {
+        name: "Neal Jain",
+        email: "nealmanawat@gmail.com",
+        role: "admin",
+        approved: true,
+        // bcrypt hash of "Neal@2005"
+        passwordHash: "$2b$12$xTU3Y.LtHladLb5SSir9/Oce35CML7MpuHKA4nNck0hYoslhsdhiK",
+        createdAt: Date.now(),
+      });
+    }
+
+    if (!existingAdmin2) {
+      await ctx.db.insert("users", {
+        name: "Super Admin",
+        email: "admin@admin.com",
+        role: "admin",
+        approved: true,
+        // bcrypt hash of "Admin@123"
+        passwordHash: "$2b$12$gW29K9z0aYuKzjQj5LJ.feYGsBtoXbQP6fDbsKMKdhhoEcxI3BtPC",
+        createdAt: Date.now(),
+      });
+    }
 
     await ctx.db.insert("users", {
       name: "City General Hospital",
@@ -124,6 +147,5 @@ export default mutation({
     });
 
     console.log("✅ Database seeded: users, patients, sensor data, emergency events, chat messages.");
-    void adminId;
   },
 });
