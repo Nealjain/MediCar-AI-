@@ -17,13 +17,14 @@ export const addMessage = mutation({
     patientId: v.id("patients"),
     role: v.union(v.literal("user"), v.literal("assistant")),
     content: v.string(),
+    timestamp: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("chatMessages", {
       patientId: args.patientId,
       role: args.role,
       content: args.content,
-      timestamp: Date.now(),
+      timestamp: args.timestamp ?? Date.now(),
     });
   },
 });

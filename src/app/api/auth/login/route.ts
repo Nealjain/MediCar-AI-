@@ -73,6 +73,13 @@ export async function POST(req: NextRequest) {
       }, { status: 403 });
     }
 
+    // For patients, also fetch their patient record so the client can store patientId
+    let patientId: string | null = null;
+    if (user.role === "patient") {
+      const patient = await getConvex().query(api.patients.getPatientByEmail, { email });
+      patientId = patient?._id ?? null;
+    }
+
     return NextResponse.json({
       success: true,
       user: {
@@ -80,10 +87,10 @@ export async function POST(req: NextRequest) {
         name: user.name,
         email: user.email,
         role: user.role,
+        patientId,
       },
     }, {
       headers: {
-        // Set role cookie for middleware RBAC (httpOnly=false so JS can also read)
         "Set-Cookie": `role=${user.role}; Path=/; SameSite=Lax; Max-Age=86400`,
       },
     });

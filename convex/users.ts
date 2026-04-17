@@ -18,10 +18,44 @@ export const verifyLogin = query({
 export const getUserByEmail = query({
   args: { email: v.string() },
   handler: async (ctx, args) => {
+    // Use first() instead of unique() to handle any duplicate rows gracefully
     return await ctx.db
       .query("users")
       .withIndex("by_email", (q) => q.eq("email", args.email))
-      .unique();
+      .first();
+  },
+});
+
+export const getUserById = query({
+  args: { userId: v.id("users") },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.userId);
+  },
+});
+
+export const updateUser = mutation({
+  args: {
+    userId: v.id("users"),
+    name: v.optional(v.string()),
+    phone: v.optional(v.string()),
+    city: v.optional(v.string()),
+    state: v.optional(v.string()),
+    address: v.optional(v.string()),
+    // doctor fields
+    specialisation: v.optional(v.string()),
+    qualification: v.optional(v.string()),
+    experience: v.optional(v.string()),
+    // hospital fields
+    hospitalName: v.optional(v.string()),
+    bedCount: v.optional(v.string()),
+    website: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const { userId, ...updates } = args;
+    const filtered = Object.fromEntries(
+      Object.entries(updates).filter(([, val]) => val !== undefined)
+    );
+    await ctx.db.patch(userId, filtered);
   },
 });
 

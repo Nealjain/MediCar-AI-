@@ -45,6 +45,9 @@ export default function LoginPage() {
       sessionStorage.setItem("userName", data.user.name);
       sessionStorage.setItem("userEmail", data.user.email);
       sessionStorage.setItem("userId", data.user.id);
+      if (data.user.patientId) {
+        sessionStorage.setItem("patientId", data.user.patientId);
+      }
       router.push("/dashboard");
     } catch {
       setError("Something went wrong. Please try again.");

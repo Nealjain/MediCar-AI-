@@ -2,11 +2,12 @@
 
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
+import { usePatient } from "@/hooks/usePatient";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { Heart, Droplets, Activity } from "lucide-react";
 
 export default function VitalsPage() {
-  const patient = useQuery(api.patients.getDefaultPatient);
+  const { patient, loading: patientLoading } = usePatient();
   const rawData = useQuery(api.patients.getRecentSensorData,
     patient ? { patientId: patient._id, limit: 50 } : "skip"
   );
@@ -22,6 +23,10 @@ export default function VitalsPage() {
     : [];
 
   const latest = rawData?.[0];
+
+  if (patientLoading) {
+    return <div className="p-8 flex items-center justify-center"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>;
+  }
 
   const statCards = [
     { label: "Latest HR",   value: latest?.heartRate ?? "--",   unit: "BPM", icon: Heart,     color: "text-red-500",   bg: "bg-red-50",   normal: "60–100 BPM" },

@@ -6,6 +6,17 @@ const DEFAULT_SLOTS = [
   "02:00 PM","02:30 PM","03:00 PM","03:30 PM","04:00 PM","04:30 PM",
 ];
 
+export const getAppointmentsByPatient = query({
+  args: { patientId: v.id("patients") },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("appointments")
+      .withIndex("by_patient", (q) => q.eq("patientId", args.patientId))
+      .order("desc")
+      .collect();
+  },
+});
+
 export const getAppointments = query({
   args: { userId: v.string(), role: v.string() },
   handler: async (ctx, args) => {
@@ -16,10 +27,25 @@ export const getAppointments = query({
         .order("desc")
         .collect();
     }
-    const all = await ctx.db.query("appointments").collect();
-    return all
-      .filter((a) => a.patientId === args.userId)
-      .sort((a, b) => b.createdAt - a.createdAt);
+    // For patients: userId is a users._id — find their patient record first
+    const patient = await ctx.db
+      .query("patients")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .first();
+
+    if (!patient) {
+      // Fallback: try matching by patientId string directly (legacy)
+      const all = await ctx.db.query("appointments").collect();
+      return all
+        .filter((a) => String(a.patientId) === args.userId)
+        .sort((a, b) => b.createdAt - a.createdAt);
+    }
+
+    return await ctx.db
+      .query("appointments")
+      .withIndex("by_patient", (q) => q.eq("patientId", patient._id))
+      .order("desc")
+      .collect();
   },
 });
 

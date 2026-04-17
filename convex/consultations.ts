@@ -11,10 +11,22 @@ export const getConsultations = query({
         .order("desc")
         .collect();
     }
-    // For patients, find by patientId — need to scan
+    // For patients: find their patient record by userId
+    const patient = await ctx.db
+      .query("patients")
+      .filter((q) => q.eq(q.field("userId"), args.userId))
+      .first();
+
     const all = await ctx.db.query("consultations").collect();
+
+    if (patient) {
+      return all
+        .filter((c) => c.patientId === patient._id)
+        .sort((a, b) => (b.lastMessageAt ?? b.createdAt) - (a.lastMessageAt ?? a.createdAt));
+    }
+    // Fallback: match by string
     return all
-      .filter((c) => c.patientId === args.userId)
+      .filter((c) => String(c.patientId) === args.userId)
       .sort((a, b) => (b.lastMessageAt ?? b.createdAt) - (a.lastMessageAt ?? a.createdAt));
   },
 });
