@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     const labResult = await getConvex().mutation(api.prescriptions.seedLabTests);
 
     // Load medication data
-    const dataPath = path.join(process.cwd(), "..", "medication names", "DATA", "indian_medicine_data.json");
+    const dataPath = path.join(process.cwd(), "medication names", "DATA", "indian_medicine_data.json");
     if (!fs.existsSync(dataPath)) {
       return NextResponse.json({ error: "Data file not found: " + dataPath }, { status: 404 });
     }
